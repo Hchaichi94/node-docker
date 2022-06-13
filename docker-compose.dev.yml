@@ -1,5 +1,8 @@
 version: "3"
 services:
+  nginx:
+    ports:
+      - "3000:80"
   node-app:
     build:
       context: .
@@ -10,4 +13,13 @@ services:
       - /app/node_modules
     environment:
       - NODE_ENV=development
+      - MONGO_USER=admin
+      - MONGO_PASSWORD=admin
+      - SESSION_SECRET=secret
     command: npm run dev
+    depends_on:
+      - mongo
+  mongo:
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
